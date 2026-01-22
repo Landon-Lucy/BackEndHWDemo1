@@ -1,0 +1,19 @@
+﻿@page "/"
+@inherits HomeBase
+
+<h2>Cool Test</h2>
+
+<button @onclick=LoadExample>Fetch Example Data</button>
+
+@if (example == null)
+{
+    <p>Loading...</p>    
+}
+else
+{
+    foreach (var item in example)
+    {   
+    <p>Name: @item.Name</p>
+    <p>Name: @item.Age</p>
+    }
+}

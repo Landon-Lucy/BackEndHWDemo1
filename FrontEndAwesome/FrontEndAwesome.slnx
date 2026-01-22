@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ClassLibrary/ClassLibrary.csproj" Id="0e90696a-dfc9-45df-8837-164f35bbf2a5" />
+  <Project Path="FrontEndAwesome/FrontEndAwesome.csproj">
+    <BuildDependency Project="ClassLibrary/ClassLibrary.csproj" />
+  </Project>
+</Solution>

@@ -1,0 +1,124 @@
+﻿@page "/weather"
+@inject HttpClient Http
+
+<h3>API Test</h3>
+
+<button @onclick="CallWeatherApi">Call Weather API</button>
+
+@if (error != null)
+{
+    <p style="color:red">@error</p>
+}
+else if (result != null)
+{
+    <pre>@result</pre>
+}
+
+@code {
+    string? result;
+    string? error;
+
+    async Task CallWeatherApi()
+    {
+        try
+        {
+            result = await Http.GetStringAsync("WeatherForecast");
+            error = null;
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }}
+
+    <h3>API Test 2</h3>
+
+<button @onclick="CallCloudApi">Call Cloud API</button>
+
+@if (error2 != null)
+{
+    <p style="color:red">@error2</p>
+}
+else if (result2 != null)
+{
+    <pre style="color:blue">The Clouds above you look like: @result2</pre>
+}
+
+@code {
+    string? result2;
+    string? error2;
+
+    async Task CallCloudApi()
+    {
+        try
+        {
+            result2 = await Http.GetStringAsync("CloudShape");
+            error2 = null;
+        }
+        catch (Exception ex)
+        {
+            error2 = ex.Message;
+        }
+    }}
+
+        <h3>API Test 3</h3>
+
+<button @onclick="CallSunHoursApi">Call Sun Hours API</button>
+
+@if (error3 != null)
+{
+    <p style="color:red">@error3</p>
+}
+else if (result3 != null)
+{
+    <pre style="color:darkorange">Hours of Sunlight tomorrow: @result3</pre>
+}
+
+@code {
+    string? result3;
+    string? error3;
+
+    async Task CallSunHoursApi()
+    {
+        try
+        {
+            result3 = await Http.GetStringAsync("SunHours");
+            error3 = null;
+        }
+        catch (Exception ex)
+        {
+            error3 = ex.Message;
+        }
+    }
+}
+
+<h3>API Test 4</h3>
+
+<button @onclick="CallOutfitApi">Call Outfit API</button>
+
+@if (error4 != null)
+{
+    <p style="color:red">@error4</p>
+}
+else if (result4 != null)
+{
+    <pre style="color:purple">You should wear exactly this outfit: @result4</pre>
+}
+
+@code {
+    string? result4;
+    string? error4;
+
+    async Task CallOutfitApi()
+    {
+        try
+        {
+            result4 = await Http.GetStringAsync("Outfit");
+            error4 = null;
+        }
+        catch (Exception ex)
+        {
+            error4 = ex.Message;
+        }
+    }
+}
