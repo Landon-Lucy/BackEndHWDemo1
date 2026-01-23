@@ -13,4 +13,12 @@ namespace ClassLibrary.Models
         public Example()
         { }
     }
+
+    public class TestItem
+    {
+        public int id { get; set; }
+
+        public TestItem()
+        { }
+    }
 }
