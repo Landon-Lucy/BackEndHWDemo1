@@ -16,9 +16,16 @@ namespace ClassLibrary.Models
 
     public class TestItem
     {
-        public int id { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
 
         public TestItem()
         { }
+
+        public TestItem(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 }
