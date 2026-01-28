@@ -10,17 +10,19 @@ using System.Net.Http.Json;
 
         public List<TestItem>? items { get; set; } //might be null
 
-    //dummy values for now
-        public bool loading = false;
+    public bool loading = false;
     public string error = null;
     public bool showModal = false;
     public bool isEditing = false;
-    public string modalName = "Test";
+    public string modalName = "";
+    public int idToEdit = 0;
 
-        protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
         {
+            loading = true;
             await LoadItems();
-        }
+            loading = false;
+    }
 
         protected async Task LoadItems()
         {
@@ -31,13 +33,40 @@ using System.Net.Http.Json;
         protected async Task SaveItem()
         {
         //check if editing or creating
-        await Http.PostAsJsonAsync<TestItem>("Test/items", new TestItem());
+        if (isEditing)
+        {
+            TestItem newItem = new TestItem
+            {
+                Name = modalName,
+                Id = idToEdit
+            };
+            //update existing item
+            await Http.PutAsJsonAsync($"Test/items/{idToEdit}", newItem);
         }
+        else
+        {
+            //create new item
+            TestItem newItem = new TestItem
+            {
+                Name = modalName
+            };
+            await Http.PostAsJsonAsync("Test/items", newItem);
+        }
+
+        showModal = false;
+        modalName = "";
+
+        loading = true;
+        await LoadItems();
+        loading = false;
+    }
+
 
         protected async Task DeleteItem(int id)
         {
-            await Http.DeleteFromJsonAsync<TestItem>($"Test/items/{id}");
-        }
+        await Http.DeleteAsync($"Test/items/{id}");
+        await LoadItems();
+    }
 
     protected async Task OpenCreateModal()
     {
@@ -49,11 +78,14 @@ using System.Net.Http.Json;
     {
         showModal = true;
         isEditing = true;
+        modalName = item.Name;
+        idToEdit = item.Id;
     }
 
     public void CloseModal()
     {
         showModal = false;
+        modalName= "";
     }
 
 }

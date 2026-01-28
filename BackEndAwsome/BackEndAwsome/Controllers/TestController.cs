@@ -8,22 +8,23 @@ namespace BackEndAwsome.Controllers
     public class TestController : Controller
     {
 
-        List<TestItem> items = new List<TestItem>()
+        private static readonly List<TestItem> items = new List<TestItem>()
         {
             new TestItem(1, "Item 1"),
             new TestItem(2, "Item 2"),
             new TestItem(3, "Item 3"),
         };
 
+        public static int nextId = 4;
         [HttpGet("items")]
 
         public IActionResult GetItems()
         {
             //get this from database
-            var items = new List<ClassLibrary.Models.TestItem>()
-            {
-                new ClassLibrary.Models.TestItem() {Id = 1 }
-            };
+            //var items = new List<ClassLibrary.Models.TestItem>()
+            //{
+            //    new ClassLibrary.Models.TestItem() {Id = 1 }
+            //};
 
             //If else or try catch usually here
             return Ok(items);
@@ -31,12 +32,14 @@ namespace BackEndAwsome.Controllers
 
         [HttpPost("items")]
 
-        public IActionResult PostItem(ClassLibrary.Models.TestItem item)
+        public IActionResult PostItem([FromBody] TestItem newItem)
         {
-            //save to database
-            items.Add(item);
+            newItem.Id = nextId;
+            nextId++;
 
-            return Ok(item);
+            items.Add(newItem);
+
+            return Ok();
         }
 
         [HttpDelete("items/{id}")]
@@ -57,14 +60,14 @@ namespace BackEndAwsome.Controllers
         }
 
         [HttpPut("items/{id}")]
-        public IActionResult PutItem(int id)
+        public IActionResult PutItem([FromBody] TestItem newItem)
         {
             //update in database
             foreach (TestItem item in items)
             {
-                if (item.Id == id)
+                if (item.Id == newItem.Id)
                 {
-                    item.Name = "Updated Name";
+                    item.Name = newItem.Name;
                     break;
                 }
             }
